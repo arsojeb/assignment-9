@@ -40,7 +40,7 @@ export default function Footer() {
           <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
             <FaInstagram className="w-5 h-5 hover:text-purple-400 transition-transform hover:scale-110" />
           </a>
-          <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="Github">
+          <a href="https://github.com/arsojeb" target="_blank" rel="noreferrer" aria-label="Github">
             <FaGithub className="w-5 h-5 hover:text-purple-400 transition-transform hover:scale-110" />
           </a>
         </nav>

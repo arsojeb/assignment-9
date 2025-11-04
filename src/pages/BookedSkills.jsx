@@ -1,50 +1,42 @@
+// src/pages/BookedSkills.jsx
 import { useState, useEffect } from "react";
+import { auth } from "../firebase";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function BookedSkills() {
   const [bookedSkills, setBookedSkills] = useState([]);
 
-  // Load booked skills from localStorage
   useEffect(() => {
-    const booked = JSON.parse(localStorage.getItem("bookedSkills")) || [];
-    setBookedSkills(booked);
+    if (auth.currentUser) {
+      const booked = JSON.parse(localStorage.getItem("bookedSkills")) || [];
+      setBookedSkills(booked);
+    } else {
+      setBookedSkills([]); // Not logged in, empty booked skills
+    }
   }, []);
 
-  // Remove skill
   const handleRemoveSkill = (skill) => {
-    const updatedBooked = bookedSkills.filter(s => s.skillId !== skill.skillId);
+    const updatedBooked = bookedSkills.filter((s) => s.skillId !== skill.skillId);
     setBookedSkills(updatedBooked);
     localStorage.setItem("bookedSkills", JSON.stringify(updatedBooked));
-
-    // Add back to skill page storage
-    const skillPageSkills = JSON.parse(localStorage.getItem("skillPageSkills")) || [];
-    localStorage.setItem("skillPageSkills", JSON.stringify([...skillPageSkills, skill]));
-
-    toast.success(`"${skill.skillName}" removed successfully!`);
+    toast.success(`"${skill.skillName}" removed from your booked skills!`);
   };
 
-  if (bookedSkills.length === 0) {
-    return (
-      <section className="min-h-screen flex items-center justify-center bg-base-200 text-center px-6">
-        <div>
-          <h2 className="text-3xl font-bold text-primary mb-4">No Booked Skills 😢</h2>
-          <Link to="/skills" className="btn btn-primary">
-            Explore Skills
-          </Link>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="bg-base-200 min-h-screen py-24 px-6 relative">
-      <div className="max-w-6xl mx-auto relative z-10">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-12 text-center text-primary">
-          Your Booked Skills
-        </h1>
+    <section className="bg-base-200 min-h-screen py-24 px-6">
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-12 text-center text-primary">
+        Booked Skills
+      </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      {bookedSkills.length === 0 ? (
+        <p className="text-center text-gray-700 text-lg">
+          {auth.currentUser
+            ? "You have no booked skills."
+            : "No booked skills. Please login to book skills."}
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {bookedSkills.map((skill) => (
             <div
               key={skill.skillId}
@@ -61,12 +53,11 @@ export default function BookedSkills() {
                 <p className="text-sm font-medium">Provider: {skill.providerName}</p>
                 <p className="text-sm font-medium">Price: ${skill.price}</p>
                 <p className="text-sm font-medium">Rating: {skill.rating} ⭐</p>
-                <p className="text-sm font-medium">Slots: {skill.slotsAvailable}</p>
                 <p className="text-sm font-medium">Category: {skill.category}</p>
 
                 <button
                   onClick={() => handleRemoveSkill(skill)}
-                  className="btn btn-outline mt-3 w-full text-sm text-red-500 hover:bg-red-50"
+                  className="btn btn-secondary mt-3 w-full text-sm"
                 >
                   Remove
                 </button>
@@ -74,7 +65,7 @@ export default function BookedSkills() {
             </div>
           ))}
         </div>
-      </div>
+      )}
     </section>
   );
 }
