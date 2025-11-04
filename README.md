@@ -1,16 +1,34 @@
-# React + Vite
+# SkillSwap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live URL:** [ https://ars-sojeb-assignment-09.netlify.app/ ] 
 
-Currently, two official plugins are available:
+## Purpose
+SkillSwap is a local skill exchange platform that allows users to offer, learn, and trade skills within their community. Users can browse various skill listings, book skills, and manage their profile. The platform encourages skill-sharing and helps people learn new abilities in a convenient way.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
+- **User Authentication:**  
+  - Email/password login and signup  
+  - Google login integration  
+  - Firebase authentication
 
-## React Compiler
+- **Skill Management:**  
+  - Browse available skills  
+  - Book skills and view booked skills  
+  - Skill categories: Music, Language, Programming, Fitness, Art, etc.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Profile Management:**  
+  - View user profile information  
+  - Logout functionality  
 
-## Expanding the ESLint configuration
+- **Responsive Design:**  
+  - Works on desktop and mobile devices  
+  - Mobile-friendly menu and interactions  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **UI/UX Features:**  
+  - Light and Dark Mode toggle  
+  - Smooth hover animations  
+  - Toast notifications for actions (bookings, errors, etc.)  
+
+## Project Setup
+1. Clone the repository:
+   git clone : https://github.com/arsojeb/assignment-9.git
