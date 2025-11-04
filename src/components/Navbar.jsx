@@ -6,6 +6,9 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
   const navigate = useNavigate();
 
   const navLinks = [
@@ -14,10 +17,9 @@ export default function Navbar() {
     { to: "/booked-skills", label: "Booked Skills" },
     { to: "/about", label: "About" },
     { to: "/services", label: "Services" },
-    
   ];
 
-  // Listen for auth changes
+  // ✅ Listen for auth changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -25,18 +27,37 @@ export default function Navbar() {
     return () => unsubscribe();
   }, []);
 
+  // ✅ Apply theme on load
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  // ✅ Handle Logout
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/login");
   };
 
+  // ✅ Handle Theme Toggle
+  const toggleTheme = () => {
+    const newTheme = darkMode ? "light" : "dark";
+    setDarkMode(!darkMode);
+    localStorage.setItem("theme", newTheme);
+  };
+
   return (
-    <div className="navbar bg-base-200 px-6 shadow-md relative z-50">
+    <div className="navbar bg-base-200 dark:bg-gray-900 px-6 shadow-md relative z-50 transition-colors duration-300">
       {/* Left: Brand */}
       <div className="flex-1">
         <Link
           to="/"
-          className="text-xl hover:text-2xl font-extrabold text-white hover:text-primary hover:scale-105 transition-transform"
+          className={`text-xl font-extrabold hover:scale-105 transition-transform ${
+            darkMode ? "text-blue-700" : "text-white"
+          }`}
         >
           SkillSwap
         </Link>
@@ -50,7 +71,15 @@ export default function Navbar() {
               <NavLink
                 to={link.to}
                 className={({ isActive }) =>
-                  `font-medium ${isActive ? "text-primary underline" : ""}`
+                  `font-medium transition-colors ${
+                    isActive
+                      ? darkMode
+                        ? "text-blue-700 underline"
+                        : "text-blue-600 underline"
+                      : darkMode
+                      ? "text-black hover:text-blue-700"
+                      : "text-white hover:text-blue-600"
+                  }`
                 }
               >
                 {link.label}
@@ -59,13 +88,28 @@ export default function Navbar() {
           ))}
         </ul>
 
+        {/* 🌙 Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="btn btn-ghost ml-2 text-xl hover:scale-110 transition-transform"
+          title="Toggle Theme"
+        >
+          {darkMode ? "☀️" : "🌙"}
+        </button>
+
         {/* Auth Buttons */}
         {!user ? (
           <>
-            <Link to="/login" className="btn btn-primary ml-4 hover:scale-105 transition">
+            <Link
+              to="/login"
+              className="btn btn-primary ml-4 hover:scale-105 transition"
+            >
               Login
             </Link>
-            <Link to="/signup" className="btn btn-secondary ml-2 hover:scale-105 transition">
+            <Link
+              to="/signup"
+              className="btn btn-secondary ml-2 hover:scale-105 transition"
+            >
               Sign Up
             </Link>
           </>
@@ -84,7 +128,7 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-1000 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-1000 p-2 shadow bg-base-100 dark:bg-gray-800 rounded-box w-52"
             >
               <li>
                 <Link to="/profile">Profile</Link>
@@ -131,14 +175,22 @@ export default function Navbar() {
 
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-base-200 z-1000 shadow-lg md:hidden">
+        <div className="absolute top-16 left-0 w-full bg-base-200 dark:bg-gray-900 z-1000 shadow-lg md:hidden">
           <ul className="menu p-3 space-y-2">
             {navLinks.map((link) => (
               <li key={link.to}>
                 <NavLink
                   to={link.to}
                   className={({ isActive }) =>
-                    `block font-medium ${isActive ? "text-primary underline" : ""}`
+                    `block font-medium ${
+                      isActive
+                        ? darkMode
+                          ? "text-blue-400 underline"
+                          : "text-blue-600 underline"
+                        : darkMode
+                        ? "text-white hover:text-gray-300"
+                        : "text-black hover:text-blue-600"
+                    }`
                   }
                   onClick={() => setMenuOpen(false)}
                 >
@@ -146,6 +198,19 @@ export default function Navbar() {
                 </NavLink>
               </li>
             ))}
+
+            {/* 🌙 Theme Toggle in Mobile */}
+            <li>
+              <button
+                onClick={() => {
+                  toggleTheme();
+                  setMenuOpen(false);
+                }}
+                className="w-full text-left btn btn-ghost"
+              >
+                {darkMode ? " ☀️Light Mode" : "🌙 Dark Mode"}
+              </button>
+            </li>
 
             {!user ? (
               <>
