@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { auth } from "../firebase";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import skillsDataRaw from "../data/skills"; // your array of skills
 
 export default function SkillPage() {
@@ -11,7 +10,6 @@ export default function SkillPage() {
   // Load skills and booked skills from localStorage
   useEffect(() => {
     setSkillsData(skillsDataRaw);
-
     const booked = JSON.parse(localStorage.getItem("bookedSkills")) || [];
     setBookedSkills(booked);
   }, []);
@@ -32,11 +30,13 @@ export default function SkillPage() {
     const remainingSkills = skillsData.filter((s) => s.skillId !== skill.skillId);
     setSkillsData(remainingSkills);
 
-    toast.success(`You booked "${skill.skillName}" successfully! 🎉`);
+    // ✅ Toast message for successful booking
+    toast.success(`Your skill "${skill.skillName}" has been booked! 🎉`);
   };
 
   return (
     <section className="bg-base-200 min-h-screen py-24 px-6 relative">
+      <Toaster position="top-right" reverseOrder={false} /> {/* Toast container */}
       <div className="max-w-6xl mx-auto relative z-10">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-12 text-center text-primary">
           Explore Skills
