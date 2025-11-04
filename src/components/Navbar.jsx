@@ -36,7 +36,7 @@ export default function Navbar() {
       <div className="flex-1">
         <Link
           to="/"
-          className="text-2xl font-extrabold text-primary hover:text-primary-focus transition"
+          className="text-xl hover:text-2xl font-extrabold text-white hover:text-primary hover:scale-105 transition-transform"
         >
           SkillSwap
         </Link>

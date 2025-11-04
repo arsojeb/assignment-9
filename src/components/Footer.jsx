@@ -13,7 +13,7 @@ export default function Footer() {
         <aside className="flex flex-col items-start">
           <Link
             to="/"
-            className="text-2xl font-bold text-purple-600 hover:scale-105 transition-transform"
+            className="text-2xl font-bold text-white hover:text-blue-500 hover:scale-105 transition-transform"
           >
             SkillSwap
           </Link>
@@ -22,15 +22,15 @@ export default function Footer() {
 
         {/* Footer Navigation */}
         <nav className="flex flex-wrap gap-6 text-sm font-medium">
-          <Link to="/" className="hover:text-purple-400 transition text-white">Home</Link>
-          <Link to="/about" className="hover:text-purple-400 transition text-white">About</Link>
-          <Link to="/services" className="hover:text-purple-400 transition text-white">Services</Link>
-          <Link to="/booked-skills" className="hover:text-purple-400 transition text-white">Booked Skill</Link>
-          <Link to="/skills" className="hover:text-purple-400 transition text-white">Skill</Link>
+          <Link to="/" className="hover:text-blue-400 transition text-white ">Home</Link>
+          <Link to="/about" className="hover:text-blue-400 transition text-white">About</Link>
+          <Link to="/services" className="hover:text-blue-400 transition text-white">Services</Link>
+          <Link to="/booked-skills" className="hover:text-blue-400 transition text-white">Booked Skill</Link>
+          <Link to="/skills" className="hover:text-blue-400 transition text-white">Skill</Link>
         </nav>
 
         {/* Social Icons */}
-        <nav className="flex gap-6">
+        <nav className="flex gap-6 ">
           <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
             <FaFacebook className="w-5 h-5 hover:text-purple-400 transition-transform hover:scale-110" />
           </a>
