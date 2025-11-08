@@ -1,47 +1,42 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import skillsData from "../data/skills";
 
 export default function Skills() {
   return (
-    <div className="max-w-6xl mx-auto py-16 px-6">
-      <h1 className="text-4xl font-bold text-center mb-10 text-blue-500">
+    <div className="bg-base-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-500 min-h-screen py-16 px-6">
+      <h1 className="text-4xl font-bold text-center mb-16 text-blue-500">
         All Skills
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {skillsData.map((skill) => (
-          <div
+          <motion.div
             key={skill.skillId}
-            className="card bg-base-200 dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-transform hover:scale-105"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="bg-white/50 dark:bg-gray-800/60 backdrop-blur-xl shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition-transform hover:-translate-y-1"
           >
-            <figure>
-              <img
-                src={skill.image}
-                alt={skill.skillName}
-                className="h-48 w-full object-cover"
-              />
-            </figure>
-            <div className="card-body text-left">
+            <img
+              src={skill.image}
+              alt={skill.skillName}
+              className="h-48 w-full object-cover"
+            />
+            <div className="p-5 text-left">
               <h3 className="text-xl font-bold">{skill.skillName}</h3>
               <p className="text-sm opacity-80">
                 {skill.category} • by {skill.providerName}
               </p>
-              <div className="flex justify-between items-center mt-3">
-                <span className="font-semibold text-yellow-400">
-                  ⭐ {skill.rating}
-                </span>
+              <div className="flex justify-between mt-3">
+                <span className="font-semibold text-yellow-400">⭐ {skill.rating}</span>
                 <span className="font-semibold text-blue-500">${skill.price}</span>
               </div>
-              <div className="card-actions justify-end mt-4">
-                <Link
-                  to={`/skillpage/${skill.skillId}`}
-                  className="btn btn-primary"
-                >
-                  View Details
-                </Link>
-              </div>
+              
+          <Link to={`/skills/${skill.skillId}`} className="btn btn-primary w-full mt-5">
+            View Details
+          </Link>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

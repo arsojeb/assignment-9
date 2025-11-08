@@ -33,6 +33,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
       { path: "/skills", element: <Skills /> },
+      { path: "/skills/:id", element: <SkillPage/> },
       { path: "/profile", element: <Profile /> },  // <-- Added route
       { path: "/login-email-link", element: <LoginEmailLink /> },
       { path: "/finishSignIn", element: <FinishSignIn /> },

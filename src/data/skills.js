@@ -5,6 +5,9 @@ import img3 from "../assets/image-3.webp";
 import img4 from "../assets/image-4.webp";
 import img5 from "../assets/image-5.webp";
 import img6 from "../assets/image-6.png";
+import img7 from "../assets/image-7.jpg";
+import img8 from "../assets/image-8.jpg";
+import img9 from "../assets/image-9.jpeg";
 
 const skillsData = [
   {
@@ -78,6 +81,42 @@ const skillsData = [
     description: "Learn basic French conversation and grammar skills.",
     image: img6,
     category: "Language"
+  },
+  {
+    skillId: 7,
+    skillName: "Leadership & Management",
+    providerName: "Zakir Ali",
+    providerEmail: "zakir@skillswap.com",
+    price: 18,
+    rating: 4.9,
+    slotsAvailable: 9,
+    description: "Learn basic Leadership & Management skills.",
+    image: img7,
+    category: "Leadership & Management"
+  },
+  {
+    skillId: 8,
+    skillName: "Creativity & Innovation",
+    providerName: "Nazim Uddin",
+    providerEmail: "Nazim@skillswap.com",
+    price: 22,
+    rating: 4.7,
+    slotsAvailable: 12,
+    description: "Learn basic to advance Creativity & Innovation skills.",
+    image: img8,
+    category: "Creativity & Innovation"
+  },
+  {
+    skillId: 9,
+    skillName: "Emotional Intelligence (EQ)",
+    providerName: "Afifa Zabin",
+    providerEmail: "asifa087@skillswap.com",
+    price: 12,
+    rating: 4.6,
+    slotsAvailable: 2,
+    description: "Basic Emotional Intelligence (EQ) techniques to improve Intelligence.",
+    image: img9,
+    category: "Emotional Intelligence (EQ)"
   }
 ];
 
