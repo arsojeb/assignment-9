@@ -1,98 +1,131 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { auth, googleProvider } from "../firebase";
-import { useNavigate, Link } from "react-router-dom";
-import { Mail, Lock, Loader2 } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithPopup,
+} from "firebase/auth";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Redirect user to intended route after login
+  const from = location.state?.from?.pathname || "/";
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      toast.success("Login successful!");
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Login failed!");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleResetPassword = async () => {
+    if (!formData.email) {
+      toast.error("Please enter your email to reset password!");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, formData.email);
+      toast.success("Password reset email sent!");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Failed to send reset email!");
+    }
   };
 
   const handleGoogleLogin = async () => {
-    setLoading(true);
-    setError("");
     try {
-      await signInWithPopup(auth, googleProvider);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
+      const result = await signInWithPopup(auth, googleProvider);
+      toast.success("Logged in with Google!");
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Google login failed!");
     }
-    setLoading(false);
   };
 
   return (
-    <section className="relative bg-base-200 min-h-screen flex items-center justify-center px-4 overflow-hidden">
-      <div className="relative z-10 max-w-md w-full bg-white shadow-xl rounded-2xl p-8">
-        <h2 className="text-3xl font-bold text-primary mb-2 text-center">Login</h2>
-        <p className="text-black mb-6 text-center">Welcome back! Please login.</p>
-
-        {error && <p className="text-red-500 bg-red-50 border border-red-200 rounded-lg py-2 px-3 mb-4 text-center">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-base-100 dark:bg-gray-900 text-gray-900 dark:text-white px-4">
+      <Toaster />
+      <div className="max-w-md w-full bg-base-200 dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+        <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">Login</h1>
 
         <form onSubmit={handleLogin} className="space-y-4">
-          <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">
-            <Mail className="text-black mr-2" size={20} />
+          <div>
+            <label className="block mb-1 font-semibold">Email</label>
             <input
               type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
-              className="w-full bg-transparent focus:outline-none text-black"
+              className="input input-bordered w-full"
             />
           </div>
-
-          <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">
-            <Lock className="text-black mr-2" size={20} />
+          <div>
+            <label className="block mb-1 font-semibold">Password</label>
             <input
               type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
-              className="w-full bg-transparent focus:outline-none text-black"
+              className="input input-bordered w-full"
             />
+          </div>
+          <div className="flex justify-between items-center text-sm">
+            <button
+              type="button"
+              onClick={handleResetPassword}
+              className="text-blue-500 underline"
+            >
+              Forgot Password?
+            </button>
           </div>
 
           <button
             type="submit"
+            className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
             disabled={loading}
-            className="btn btn-primary w-full text-lg font-semibold mt-2 flex items-center justify-center gap-2"
           >
-            {loading ? <><Loader2 className="animate-spin" /> Logging in...</> : "Login"}
+            Login
           </button>
         </form>
 
-        <div className="divider my-6">OR</div>
+        <div className="divider">OR</div>
 
+        {/* Google Login */}
         <button
           onClick={handleGoogleLogin}
-          disabled={loading}
-          className="btn w-full flex items-center justify-center gap-2 font-semibold border border-gray-300 hover:bg-gray-100 transition hover:text-black"
+          className="btn btn-outline btn-warning w-full mb-4"
         >
-          <FcGoogle size={20} /> Login with Google
+          Continue with Google
         </button>
 
-        <p className="mt-6 text-sm text-black text-center">
-          Don't have an account? <Link to="/signup" className="text-primary font-medium hover:underline">Sign Up</Link>
+        <p className="text-center text-sm">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-blue-500 underline">
+            Sign Up
+          </Link>
         </p>
       </div>
-    </section>
+    </div>
   );
 }

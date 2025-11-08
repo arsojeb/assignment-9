@@ -15,8 +15,7 @@ export default function FinishSignIn() {
       }
 
       signInWithEmailLink(auth, email, window.location.href)
-        .then((result) => {
-          // Clear saved email
+        .then(() => {
           window.localStorage.removeItem("emailForSignIn");
           setStatus("✅ Sign-in successful! Redirecting...");
 
@@ -35,10 +34,12 @@ export default function FinishSignIn() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200">
-      <div className="bg-white shadow-lg rounded-xl p-8 max-w-md text-center">
-        <h1 className="text-2xl font-bold text-primary mb-4">Email Link Sign-In</h1>
-        <p className="text-gray-700">{status}</p>
+    <div className="flex items-center justify-center min-h-screen bg-base-200 dark:bg-gray-900 transition-colors duration-500 px-4">
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-8 max-w-md text-center">
+        <h1 className="text-2xl font-bold text-primary dark:text-yellow-400 mb-4">
+          Email Link Sign-In
+        </h1>
+        <p className="text-gray-700 dark:text-gray-200">{status}</p>
       </div>
     </div>
   );

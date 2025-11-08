@@ -1,98 +1,132 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
 import { useNavigate, Link } from "react-router-dom";
-import { Mail, Lock, Loader2 } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    photoURL: "",
+    password: "",
+  });
+  const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
-    }
-    setLoading(false);
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.name === "password") setPasswordError(""); // reset password error on change
   };
 
-  const handleGoogleSignup = async () => {
+  const validatePassword = (password) => {
+    if (!/[A-Z]/.test(password)) return "Password must have at least one uppercase letter.";
+    if (!/[a-z]/.test(password)) return "Password must have at least one lowercase letter.";
+    if (password.length < 6) return "Password must be at least 6 characters long.";
+    return "";
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    setError("");
-    try {
-      await signInWithPopup(auth, googleProvider);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
+
+    const passError = validatePassword(formData.password);
+    if (passError) {
+      setPasswordError(passError);
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    try {
+      // Create user
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+
+      // Update profile
+      await updateProfile(userCredential.user, {
+        displayName: formData.name,
+        photoURL: formData.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+      });
+
+      toast.success("Signup successful!");
+      navigate("/"); // Navigate to Home
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Signup failed!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <section className="relative bg-base-200 min-h-screen flex items-center justify-center px-4 overflow-hidden">
-      <div className="relative z-10 max-w-md w-full bg-white shadow-xl rounded-2xl p-8">
-        <h2 className="text-3xl font-bold text-primary mb-2 text-center">Create Account ✨</h2>
-        <p className="text-black mb-6 text-center">Sign up to join SkillSwap.</p>
-
-        {error && <p className="text-red-500 bg-red-50 border border-red-200 rounded-lg py-2 px-3 mb-4 text-center">{error}</p>}
-
-        <form onSubmit={handleSignup} className="space-y-4">
-          <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">
-            <Mail className="text-black mr-2" size={20} />
+    <div className="min-h-screen flex items-center justify-center bg-base-100 dark:bg-gray-900 text-gray-900 dark:text-white px-4">
+      <Toaster />
+      <div className="max-w-md w-full bg-base-200 dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+        <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">Sign Up</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-1 font-semibold">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-semibold">Email</label>
             <input
               type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
-              className="w-full bg-transparent focus:outline-none text-black"
+              className="input input-bordered w-full"
             />
           </div>
-
-          <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">
-            <Lock className="text-black mr-2" size={20} />
+          <div>
+            <label className="block mb-1 font-semibold">Photo URL</label>
+            <input
+              type="text"
+              name="photoURL"
+              value={formData.photoURL}
+              onChange={handleChange}
+              placeholder="Optional"
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-semibold">Password</label>
             <input
               type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
-              className="w-full bg-transparent focus:outline-none text-black"
+              className="input input-bordered w-full"
             />
+            {passwordError && (
+              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            )}
           </div>
-
           <button
             type="submit"
+            className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
             disabled={loading}
-            className="btn btn-primary w-full text-lg font-semibold mt-2 flex items-center justify-center gap-2"
           >
-            {loading ? <><Loader2 className="animate-spin" /> Signing up...</> : "Sign Up"}
+            Register
           </button>
         </form>
-
-        <div className="divider my-6">OR</div>
-
-        <button
-          onClick={handleGoogleSignup}
-          disabled={loading}
-          className="btn w-full flex items-center justify-center gap-2 font-semibold border border-gray-300 hover:bg-gray-100 transition hover:text-black"
-        >
-          <FcGoogle size={20} /> Sign up with Google
-        </button>
-
-        <p className="mt-6 text-sm text-black text-center">
-          Already have an account? <Link to="/login" className="text-primary font-medium hover:underline">Login</Link>
+        <p className="mt-4 text-center text-sm">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500 underline">
+            Login
+          </Link>
         </p>
       </div>
-    </section>
+    </div>
   );
 }

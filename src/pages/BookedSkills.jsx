@@ -1,7 +1,5 @@
-// src/pages/BookedSkills.jsx
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function BookedSkills() {
@@ -24,13 +22,13 @@ export default function BookedSkills() {
   };
 
   return (
-    <section className="bg-base-200 min-h-screen py-24 px-6">
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-12 text-center text-primary">
+    <section className="bg-base-200 dark:bg-gray-900 min-h-screen py-24 px-6 transition-colors duration-500">
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-12 text-center text-primary dark:text-yellow-400">
         Booked Skills
       </h1>
 
       {bookedSkills.length === 0 ? (
-        <p className="text-center text-gray-700 text-lg">
+        <p className="text-center text-gray-700 dark:text-gray-300 text-lg">
           {auth.currentUser
             ? "You have no booked skills."
             : "No booked skills. Please login to book skills."}
@@ -40,16 +38,18 @@ export default function BookedSkills() {
           {bookedSkills.map((skill) => (
             <div
               key={skill.skillId}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition transform"
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition transform duration-300"
             >
               <img
                 src={skill.image}
                 alt={skill.skillName}
                 className="w-full h-48 object-cover"
               />
-              <div className="p-5 text-black">
-                <h3 className="text-xl font-bold mb-2 text-blue-600">{skill.skillName}</h3>
-                <p className="text-gray-700 mb-2">{skill.description}</p>
+              <div className="p-5 text-gray-900 dark:text-gray-100">
+                <h3 className="text-xl font-bold mb-2 text-blue-600 dark:text-yellow-400">
+                  {skill.skillName}
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">{skill.description}</p>
                 <p className="text-sm font-medium">Provider: {skill.providerName}</p>
                 <p className="text-sm font-medium">Price: ${skill.price}</p>
                 <p className="text-sm font-medium">Rating: {skill.rating} ⭐</p>

@@ -4,7 +4,7 @@ import img2 from "../assets/image-2.jpg";
 import img3 from "../assets/image-3.webp";
 import img4 from "../assets/image-4.webp";
 import img5 from "../assets/image-5.webp";
-import img6 from "../assets/imagr-6.png";
+import img6 from "../assets/image-6.png";
 
 const skillsData = [
   {
