@@ -34,7 +34,7 @@ export default function Skills() {
               </div>
               <div className="card-actions justify-end mt-4">
                 <Link
-                  to={`/skills/${skill.skillId}`}
+                  to={`/skillpage/${skill.skillId}`}
                   className="btn btn-primary"
                 >
                   View Details

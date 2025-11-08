@@ -18,6 +18,7 @@ import Error404 from "./pages/Error404";
 // Optional Firebase email-link routes
 import LoginEmailLink from "./pages/LoginEmailLink";
 import FinishSignIn from "./pages/FinishSignIn";
+import Skills from "./pages/Skills";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       { path: "/booked-skills", element: <BookedSkills /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
-      { path: "/skills", element: <SkillPage /> },
+      { path: "/skills", element: <Skills /> },
       { path: "/profile", element: <Profile /> },  // <-- Added route
       { path: "/login-email-link", element: <LoginEmailLink /> },
       { path: "/finishSignIn", element: <FinishSignIn /> },
