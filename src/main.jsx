@@ -18,6 +18,7 @@ import Error404 from "./pages/Error404";
 import LoginEmailLink from "./pages/LoginEmailLink";
 import FinishSignIn from "./pages/FinishSignIn";
 import Skills from "./pages/Skills";
+import Privacy from "./pages/Privacy";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
       { path: "/skills", element: <Skills /> },
+      { path: "/privacy", element: <Privacy /> },
       { path: "/skills/:id", element: <SkillPage/> },
       { path: "/profile", element: <Profile /> },  // <-- Added route
       { path: "/login-email-link", element: <LoginEmailLink /> },
