@@ -1,7 +1,7 @@
 **Website Name:**
                 SkillSwap
 
-**Live URL:** [  https://ars-sojeb-assignment-09-02.netlify.app/ ] 
+**Live URL:** [  https://ars-sojeb-assignment-09-2.netlify.app/ ] 
 
 ## Purpose
         SkillSwap is a local skill exchange platform that allows users to offer, learn, and trade skills within their community. Users can browse various skill listings, book skills, and manage their profile. The platform encourages skill-sharing and helps people learn new abilities in a convenient way.
