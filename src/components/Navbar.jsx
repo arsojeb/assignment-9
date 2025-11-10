@@ -32,8 +32,8 @@ export default function Navbar() {
         <div className="hidden md:flex gap-6 items-center">
           <NavLink to="/" className={({ isActive }) => `font-medium ${isActive ? "text-blue-500 underline" : ""}`}>Home</NavLink>
           <NavLink to="/skills" className={({ isActive }) => `font-medium ${isActive ? "text-blue-500 underline" : ""}`}>Skills</NavLink>
+          <NavLink to="/booked-skills" className={({ isActive }) => `font-medium ${isActive ? "text-blue-500 underline" : ""}`}>Booked Skills</NavLink>
           <NavLink to="/about" className={({ isActive }) => `font-medium ${isActive ? "text-blue-500 underline" : ""}`}>About</NavLink>
-          <NavLink to="/services" className={({ isActive }) => `font-medium ${isActive ? "text-blue-500 underline" : ""}`}>Services</NavLink>
           {user && <NavLink to="/profile" className={({ isActive }) => `font-medium ${isActive ? "text-blue-500 underline" : ""}`}>My Profile</NavLink>}
 
           {!user ? (
@@ -72,8 +72,7 @@ export default function Navbar() {
         <div className="md:hidden flex flex-col px-6 pb-4 gap-3 bg-base-200 dark:bg-gray-900">
           <NavLink to="/" onClick={() => setMenuOpen(false)} className="font-medium">Home</NavLink>
           <NavLink to="/skills" onClick={() => setMenuOpen(false)} className="font-medium">Skills</NavLink>
-          <NavLink to="/about" onClick={() => setMenuOpen(false)} className="font-medium">About</NavLink>
-          <NavLink to="/services" onClick={() => setMenuOpen(false)} className="font-medium">Services</NavLink>
+          <NavLink to="/booked-skills" onClick={() => setMenuOpen(false)} className="font-medium">Booked Skills</NavLink>
           {user && <NavLink to="/profile" onClick={() => setMenuOpen(false)} className="font-medium">My Profile</NavLink>}
 
           {!user ? (

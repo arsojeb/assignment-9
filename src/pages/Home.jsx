@@ -17,13 +17,7 @@ export default function Home() {
     { title: "Teach What You Love.", desc: "Turn your passion into opportunity by sharing your skills.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1400&q=80" },
     { title: "Find Local Experts.", desc: "Collaborate, connect, and build something amazing together.", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80" },
   ];
-
-  const topProviders = [
-    { name: "Zakir Ali", skill: "UI/UX Design", rating: 4.9, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Outdoors-man-portrait_%28cropped%29.jpg/250px-Outdoors-man-portrait_%28cropped%29.jpg" },
-    { name: "David Kim", skill: "Web Development", rating: 4.8, img: "https://i.pravatar.cc/150?img=11" },
-    { name: "Nazim Uddin", skill: "Photography", rating: 4.7, img: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-  ];
-
+  
   const howItWorks = [
     { step: "1", title: "Browse Skills", desc: "Explore thousands of skills offered near you.", gradient: "from-blue-500 to-indigo-600" },
     { step: "2", title: "Book & Connect", desc: "Schedule sessions that match your time.", gradient: "from-purple-500 to-pink-500" },
@@ -108,35 +102,51 @@ export default function Home() {
 
 
       {/* TOP PROVIDERS */}
-      <section className="bg-base-200 dark:bg-gray-800 py-20 text-center">
-        <h2 className="text-4xl font-bold mb-12 text-yellow-400">Top Rated Providers</h2>
-        <div className="flex flex-wrap justify-center gap-10">
-          {topProviders.map((p, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              className="bg-base-100 dark:bg-gray-900 p-6 rounded-2xl shadow-lg hover:-translate-y-1 transition w-64">
-              <img src={p.img} alt={p.name} className="w-20 h-20 mx-auto rounded-full border-2 border-yellow-400 mb-4" />
-              <h3 className="font-bold text-lg">{p.name}</h3>
-              <p className="opacity-80 text-sm mb-2">{p.skill}</p>
-              <span className="text-yellow-400 font-bold">⭐ {p.rating}</span>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* 🌟 Top Rated Providers Section */}
+<section className="bg-base-200 dark:bg-gray-900 py-20 px-6 transition-colors duration-500">
+  <h2 className="text-4xl md:text-5xl font-extrabold mb-12 text-center text-primary dark:text-yellow-400">
+    🌟 Top Rated Providers
+  </h2>
 
-      {/* HOW IT WORKS */}
-      <section className="max-w-6xl mx-auto py-20 px-6 text-center">
-        <h2 className="text-4xl font-bold mb-12 text-blue-400">How It Works</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {howItWorks.map((step, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              className={`p-6 rounded-2xl shadow-lg bg-gradient-to-r ${step.gradient} text-white`}>
-              <div className="text-4xl font-bold mb-3">Step {step.step}</div>
-              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-              <p className="opacity-90">{step.desc}</p>
-            </motion.div>
-          ))}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto">
+    {[...skillsData]
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 4)
+      .map((provider) => (
+        <div
+          key={provider.skillId}
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+        >
+          <img
+            src={provider.image}
+            alt={provider.providerName}
+            className="w-full h-48 object-cover"
+          />
+          <div className="p-5 text-gray-900 dark:text-gray-100 text-center">
+            <h3 className="text-xl font-bold mb-1 text-blue-600 dark:text-yellow-400">
+              {provider.providerName}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+              {provider.skillName}
+            </p>
+            <div className="text-yellow-500 font-semibold mb-2">
+              ⭐ {provider.rating}
+            </div>
+            <p className="text-sm text-gray-700 dark:text-gray-400 mb-4">
+              {provider.slotsAvailable} Slots Available
+            </p>
+            <Link
+              to={`/skills/${provider.skillId}`}
+              className="btn btn-primary w-full text-white"
+            >
+              View Details
+            </Link>
+          </div>
         </div>
-      </section>
+      ))}
+  </div>
+</section>
+
 
       {/* TESTIMONIALS */}
       <section className="bg-base-200 dark:bg-gray-800 py-20 text-center">

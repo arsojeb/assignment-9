@@ -7,7 +7,6 @@ import "./index.css";
 import MainLayout from "./layout/MainLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Services from "./pages/Services";
 import BookedSkills from "./pages/BookedSkills";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -28,7 +27,6 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/about", element: <About /> },
-      { path: "/services", element: <Services /> },
       { path: "/booked-skills", element: <BookedSkills /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
